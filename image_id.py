@@ -89,11 +89,17 @@ print("Distance between top and bottom left eye lids : "+str(eye_dist[0]))
 print("Distance between top and bottom right eye lids : "+str(eye_dist[1]))
 print("EAR left eye : "+str(eye_dist[2]))
 print("EAR right eye : "+str(eye_dist[3]))
+
+earThreshold=(eye_dist[2]+eye_dist[3])/2
+
+# From data acquired from a research article 
+if(earThreshold)<0.3:
+    print("Eyes closed")
 print("\n")
 	
 if lip_dist > yawn_thresh :
-		cv2.putText(cam, f'User Yawning!',(cam.shape[1]//2 - 170 ,cam.shape[0]//2),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,200),2)
-
+		#cv2.putText(cam, f'User Yawning!',(cam.shape[1]//2 - 170 ,cam.shape[0]//2),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,200),2)
+        print("Person yawning")
 
 cv2.imshow('Webcam' , cam)
 cv2.waitKey(15000)
