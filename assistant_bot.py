@@ -12,15 +12,17 @@ r = sr.Recognizer()
 while(1):
 
     with sr.Microphone() as source2:
-        r.adjust_for_ambient_noise(source2, duration=0.2)
-        audio2 = r.listen(source2)
-        MyText = r.recognize_google(audio2)
-        MyText = MyText.lower()
+       
+        print("Recognizing...")
+        audio_data = r.record(source2, duration=5)
+        text = r.recognize_google(audio_data)
+        print(text)
+        MyText = text.lower()
         print("Did you say ",MyText)
 
     response = openai.Completion.create(
     model="text-davinci-003",
-    prompt="hello , how are you",
+    prompt=MyText,
     temperature=0.9,
     max_tokens=150,
     top_p=1,
