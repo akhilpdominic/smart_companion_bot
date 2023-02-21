@@ -16,9 +16,8 @@ while(1):
         print("Recognizing...")
         audio_data = r.record(source2, duration=5)
         text = r.recognize_google(audio_data)
-        print(text)
         MyText = text.lower()
-        print("Did you say ",MyText)
+        print("You said : ",MyText)
 
     response = openai.Completion.create(
     model="text-davinci-003",
