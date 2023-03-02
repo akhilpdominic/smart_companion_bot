@@ -1,3 +1,4 @@
+#%%
 import numpy as np
 import cv2
 import dlib
@@ -5,6 +6,9 @@ import time
 from scipy.spatial import distance as dist
 from imutils import face_utils
 import csv
+import matplotlib.pyplot as plt
+from matplotlib import animation
+import pandas as pd
 
 
 def cal_yawn(shape):
@@ -55,17 +59,26 @@ def cal_eye(shape):
     return distance
 
 
+
+
+
 camera = cv2.VideoCapture(0)
 face_model = dlib.get_frontal_face_detector()
 landmark_model = dlib.shape_predictor("/Users/akhilpdominic/Desktop/Projects/mainProject/shape_predictor_68_face_landmarks.dat")
+
+#for plotting purpose
+
+
+
+
+
+count=1
+
 
 yawn_thresh = 35
 ptime = 0
 while True :
 	suc,cam = camera.read()
-
-	if not suc :
-		break
 	
 	img_gray = cv2.cvtColor(cam,cv2.COLOR_BGR2GRAY)
 	faces = face_model(img_gray)
@@ -105,6 +118,12 @@ while True :
 		eye_closed_flag=1
 
 	print("\n")
+
+
+	#For plotting purpose
+
+
+
 	
 	yawn_flag=0
 	if lip_dist > yawn_thresh :
@@ -122,6 +141,7 @@ while True :
 		writer.writeheader() 
 		writer.writerows(mydict) 
 
+	count=count+1
 
 
 
@@ -148,3 +168,5 @@ cv2.destroyAllWindows()
 
     
 
+
+# %%

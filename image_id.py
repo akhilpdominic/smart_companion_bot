@@ -1,10 +1,14 @@
+#%%
 import numpy as np
 import cv2
 import dlib
 import time
 from scipy.spatial import distance as dist
 from imutils import face_utils
-
+import csv
+import matplotlib.pyplot as plt
+from matplotlib import animation
+import pandas as pd
 
 
 def cal_yawn(shape):
@@ -58,6 +62,26 @@ cam = cv2.imread("eyes_open.jpeg", cv2.IMREAD_COLOR)
 #cam=cv2.imread("eyes_closed.jpeg", cv2.IMREAD_COLOR)
 
 
+def drawgraph(i):
+	global count
+	count=count+1
+	x.append(count)
+	y.append(eye_dist)
+
+	plt.cla()
+	plt.plot(x,y)
+        
+eye_dist=0
+count=0
+x=[]
+y=[]
+
+
+anima=animation.FuncAnimation(plt.gcf(),drawgraph,interval=1000)
+
+plt.show()
+
+
 face_model = dlib.get_frontal_face_detector()
 landmark_model = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
@@ -104,3 +128,4 @@ if lip_dist > yawn_thresh :
 cv2.imshow('Webcam' , cam)
 cv2.waitKey(15000)
 cv2.destroyAllWindows()
+# %%
