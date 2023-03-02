@@ -66,11 +66,14 @@ camera = cv2.VideoCapture(0)
 face_model = dlib.get_frontal_face_detector()
 landmark_model = dlib.shape_predictor("/Users/akhilpdominic/Desktop/Projects/mainProject/shape_predictor_68_face_landmarks.dat")
 
-#for plotting purpose
 
 
+fields = ['Yawn Flag', 'Eye Closed Flag'] 
+filename = "student_record.csv"
 
-
+with open(filename, 'a') as csvfile: 
+	writer = csv.DictWriter(csvfile, fieldnames = fields) 
+	writer.writeheader() 
 
 count=1
 
@@ -133,12 +136,11 @@ while True :
 
 
 	mydict =[{'Yawn Flag': yawn_flag, 'Eye Closed Flag': eye_closed_flag}] 
-	fields = ['Yawn Flag', 'Eye Closed Flag'] 
-	filename = "student_record.csv"
-
+	
+	
+	
 	with open(filename, 'a') as csvfile: 
 		writer = csv.DictWriter(csvfile, fieldnames = fields) 
-		writer.writeheader() 
 		writer.writerows(mydict) 
 
 	count=count+1
