@@ -35,9 +35,9 @@ while(1):
 
     t1 = gtts.gTTS(text)
 
-    t1.save("welcome.mp3")
+    t1.save("voice.mp3")
 
-    playsound("welcome.mp3")  
+    playsound("voice.mp3")  
 
 #engine = pyttsx3.init()
 #engine.say(text)
