@@ -95,7 +95,7 @@ while True :
 		#right eye points have been identified from shapes[42:47]
 		right_eye=shape[42:48]
 		mouth = shape[48:59]
-		cv2.drawContours(cam,[left_eye,right_eye,mouth],-1,(205, 0, 0),thickness=2)
+		#cv2.drawContours(cam,[left_eye,right_eye,mouth],-1,(205, 0, 0),thickness=2)
 		
 
 		
