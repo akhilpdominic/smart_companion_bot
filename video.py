@@ -1,4 +1,5 @@
-#%%
+
+from httplib2 import Credentials
 import numpy as np
 import cv2
 import dlib
@@ -6,9 +7,34 @@ import time
 from scipy.spatial import distance as dist
 from imutils import face_utils
 import csv
-import matplotlib.pyplot as plt
-from matplotlib import animation
-import pandas as pd
+
+
+
+#Firebase part
+from google.cloud import firestore
+from google.oauth2 import service_account
+import firebase_admin
+
+from firebase_admin import db
+
+
+
+
+#####
+# Add the code Ive sent here
+
+
+# Also add the file Ive given to the root of this directory
+#####
+
+ref=db.reference("/")
+ref.get()
+
+db.reference("/name").get()
+
+
+ref.get()
+
 
 
 def cal_yawn(shape):
@@ -64,7 +90,7 @@ def cal_eye(shape):
 
 camera = cv2.VideoCapture(0)
 face_model = dlib.get_frontal_face_detector()
-landmark_model = dlib.shape_predictor("/Users/akhilpdominic/Desktop/Projects/mainProject/shape_predictor_68_face_landmarks.dat")
+landmark_model = dlib.shape_predictor("mainProject/shape_predictor_68_face_landmarks.dat")
 
 
 
@@ -80,6 +106,11 @@ count=1
 
 yawn_thresh = 35
 ptime = 0
+
+yawn_array=[]
+drowsy_array=[]
+
+
 while True :
 	suc,cam = camera.read()
 	
@@ -96,6 +127,7 @@ while True :
 		right_eye=shape[42:48]
 		mouth = shape[48:59]
 		#cv2.drawContours(cam,[left_eye,right_eye,mouth],-1,(205, 0, 0),thickness=2)
+		time.sleep(1)
 		
 
 		
@@ -122,22 +154,21 @@ while True :
 
 	print("\n")
 
-
-	#For plotting purpose
-
-
-
-	
 	yawn_flag=0
 	if lip_dist > yawn_thresh :
-			#cv2.putText(cam, f'User Yawning!',(cam.shape[1]//2 - 170 ,cam.shape[0]//2),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,200),2)
 			print("Person yawning")
 			yawn_flag=1
 
 
 	mydict =[{'Yawn Flag': yawn_flag, 'Eye Closed Flag': eye_closed_flag}] 
 	
+	yawn_array.append(yawn_flag)
+	drowsy_array.append(eye_closed_flag)
 	
+	db.reference("/yawn").set({'yawn_array':yawn_array})
+	db.reference("/drowsy").set({'drowsy_array':drowsy_array})
+
+
 	
 	with open(filename, 'a') as csvfile: 
 		writer = csv.DictWriter(csvfile, fieldnames = fields) 
